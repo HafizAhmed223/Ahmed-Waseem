@@ -1,0 +1,42 @@
+{{ "a-banner-section.css" | asset_url | stylesheet_tag }}
+
+<div class="main-container-banner">
+  <div class="conntainer-fluid">
+  {% for block in section.blocks %}
+    {% if block.type == 'banner_title' %}
+      <p class="banner-title" {{ block.shopify_attributes }}>{{ block.settings.bannertitle }}</p>
+    {% endif %}
+  {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "A Banner Section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "banner_title",
+      "name": "Banner Title",
+      "settings": [
+        {
+          "type": "text",
+          "id": "bannertitle",
+          "label": "Banner Title",
+          "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "A Banner Section",
+      "blocks": [
+        {
+          "type": "banner_title"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

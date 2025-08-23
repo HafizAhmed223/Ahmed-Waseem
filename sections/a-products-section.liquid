@@ -1,0 +1,245 @@
+{{ 'a-product-section.css' | asset_url | stylesheet_tag }}
+
+<div class="a-products-section">
+  <div class="page-width">
+    {% if section.settings.title != blank %}
+      <h2 class="a-products-section__title">{{ section.settings.title }}</h2>
+    {% endif %}
+
+    <div class="a-products-section__grid">
+      {% for block in section.blocks %}
+          {% assign product = block.settings.product %}
+          <div class="a-product-card" {{ block.shopify_attributes }}>
+          <a href="{{ product.url }}">
+              {{ product.featured_image 
+              | image_url: width: 300, height: 350, crop: 'center' 
+              | image_tag: class: 'a-product-card__image', alt: product.title }}
+          </a>
+
+          <button 
+          class="a-product-card__plus"
+          data-modal-open="modal-{{ product.id }}"
+          role="button"
+          aria-label="Open product modal"
+          tabindex="0"
+          style="background: none; border: none; padding: 0;"
+          >
+          {% if section.settings.plus_icon != blank %}
+              {{ section.settings.plus_icon 
+              | image_url: width: 15, height: 15 
+              | image_tag: class: 'plus-icon', alt: 'Open modal' }}
+          {% else %}
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <circle cx="14" cy="14" r="14" fill="#000" opacity="0.1"/>
+              <path d="M14 8v12M8 14h12" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+          {% endif %}
+          </button>
+
+          <div id="modal-{{ product.id }}" class="a-modal">
+              <div class="a-modal__content">
+              <button class="a-modal__close" data-modal-close>&times;</button>
+
+              <div class="a-modal__top">
+                  <div class="a-modal__image">
+                  {{ product.featured_image 
+                      | image_url: width: 120, height: 140, crop: 'center' 
+                      | image_tag: alt: product.title }}
+                  </div>
+
+                  <div class="a-modal__details">
+                  <h3 class="a-modal__name">{{ product.title }}</h3>
+                  <p class="a-modal__price">{{ product.price | money }}</p>
+                  <p class="a-modal__desc">{{ product.description | strip_html | truncate: 80 }}</p>
+                  </div>
+              </div>
+
+              <div class="a-modal__bottom">
+                  {% assign color_options = product.options_with_values | where: 'name', 'Color' | first %}
+                  {% if color_options and color_options.values.size > 1 %}
+                  <div class="a-modal__variants">
+                      <label>Color</label>
+                      <div class="variant-option-group">
+                      {% for value in color_options.values %}
+                          <button type="button" class="variant-option {% if forloop.first %}is-selected{% endif %}" 
+                                  data-color="{{ value }}">
+                          {{ value }}
+                          </button>
+                      {% endfor %}
+                      </div>
+                  </div>
+                  {% endif %}
+
+                  {% assign size_options = product.options_with_values | where: 'name', 'Size' | first %}
+                  {% if size_options and size_options.values.size > 1 %}
+                  <div class="a-modal__size">
+                      <label>Size</label>
+                      <div class="size-selector">
+                      <select id="size-{{ product.id }}">
+                          <option value="">Choose your size</option>
+                          {% for value in size_options.values %}
+                          <option value="{{ value }}">{{ value }}</option>
+                          {% endfor %}
+                      </select>
+                      </div>
+                  </div>
+                  {% endif %}
+
+                  <form method="post" action="{{ routes.cart_add_url }}" class="add-to-cart-form">
+                  <input type="hidden" name="id" value="{{ product.variants.first.id }}" class="variant-id-input">
+                  <script type="application/json" class="product-variants-data">
+                      [
+                      {% for variant in product.variants %}
+                          {
+                          "id": {{ variant.id }},
+                          "available": {{ variant.available | json }},
+                          {% for option in product.options_with_values %}
+                              "{{ option.name | downcase }}": "{{ variant.options[forloop.index0] }}"{% unless forloop.last %},{% endunless %}
+                          {% endfor %}
+                          }{% unless forloop.last %},{% endunless %}
+                      {% endfor %}
+                      ]
+                  </script>
+                  <button type="submit" class="a-modal__cart-btn">
+                      ADD TO CART
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                      <path d="M8 0L6.59 1.41L12.17 7H0V9H12.17L6.59 14.59L8 16L16 8L8 0Z"/>
+                      </svg>
+                  </button>
+                  </form>
+              </div>
+              </div>
+          </div>
+          </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "A Products Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Our Featured Products"
+    },
+    {
+      "type": "image_picker",
+      "id": "plus_icon",
+      "label": "Plus Icon"
+    }
+  ],
+  "blocks": [
+    {
+        "type": "product",
+        "name": "Product",
+        "settings": [
+            {
+              "type": "product",
+              "id": "product",
+              "label": "Product"
+            }
+        ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "A Products Section",
+      "blocks": [
+        {
+            "type": "product"
+        },
+        {
+            "type": "product"
+        },
+        {
+            "type": "product"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-modal-open]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const modalId = btn.getAttribute('data-modal-open');
+      const modal = document.getElementById(modalId);
+      if (modal) modal.classList.add('is-active');
+    });
+  });
+  document.querySelectorAll('[data-modal-close]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.closest('.a-modal').classList.remove('is-active');
+    });
+  });
+
+  document.querySelectorAll('.a-modal').forEach(modal => {
+    modal.addEventListener('click', e => {
+      if (e.target === modal) modal.classList.remove('is-active');
+    });
+  });
+
+  document.querySelectorAll('.variant-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.parentElement.querySelectorAll('.variant-option').forEach(sibling => {
+        sibling.classList.remove('is-selected');
+      });
+      btn.classList.add('is-selected');
+      
+      updateVariantSelection(btn.closest('.a-modal'));
+    });
+  });
+
+  document.querySelectorAll('.a-modal__size select').forEach(select => {
+    select.addEventListener('change', e => {
+      updateVariantSelection(e.target.closest('.a-modal'));
+    });
+  });
+
+  function updateVariantSelection(modal) {
+    const form = modal.querySelector('.add-to-cart-form');
+    const input = form.querySelector('.variant-id-input');
+    const variantsDataScript = modal.querySelector('.product-variants-data');
+    
+    if (!variantsDataScript) return;
+    
+    try {
+      const variants = JSON.parse(variantsDataScript.textContent);
+      const selectedColor = modal.querySelector('.variant-option.is-selected')?.getAttribute('data-color');
+      const selectedSize = modal.querySelector('.a-modal__size select')?.value;
+      
+      const matchingVariant = variants.find(variant => {
+        let matches = true;
+        
+        if (selectedColor && variant.color && variant.color !== selectedColor) {
+          matches = false;
+        }
+        
+        if (selectedSize && variant.size && variant.size !== selectedSize) {
+          matches = false;
+        }
+        
+        return matches && variant.available;
+      });
+      
+      if (matchingVariant) {
+        input.value = matchingVariant.id;
+        console.log('[v0] Updated variant ID to:', matchingVariant.id);
+      } else {
+        const firstAvailable = variants.find(v => v.available);
+        if (firstAvailable) {
+          input.value = firstAvailable.id;
+        }
+      }
+    } catch (error) {
+      console.error('[v0] Error parsing variants data:', error);
+    }
+  }
+});
+</script>
