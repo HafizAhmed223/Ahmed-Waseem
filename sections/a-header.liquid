@@ -1,0 +1,124 @@
+{{ "a-header.css" | asset_url | stylesheet_tag }}
+
+{% style %}
+  #shopify-section-{{ section.id }} header {
+    background-color: {{ section.settings.background_color }};
+  }
+{% endstyle %}
+
+<header>
+    <div class="page-width">
+        <div class="header-inner-wrapper">
+            <button type="button">
+                <span class="default">
+                    {% render 'a-ham-icon' %}
+                </span>
+                <span class="open">
+                    {% render 'a-close-icon' %}
+                </span>
+            </button>
+            {% if section.settings.logo != blank %}
+            <a href="/" class="logo">
+                <img 
+                    src="{{ section.settings.logo | image_url }}"
+                    alt="{{ section.settings.logo.alt }}"
+                    width="{{ section.settings.logo.width }}"
+                    height="{{ section.settings.logo.height  }}"
+                />
+            </a>
+            {% endif %}
+
+            <div class="logo-content">
+                {% for block in section.blocks %}
+                    {% case block.type %}
+                      {% when "description" %}
+                        <div class="description" {{ block.shopify_attributes }}>
+                            {{ block.settings.description }}
+                        </div>
+                      {% when "button" %}
+                        <a href="{{ block.settings.btn_url }}" class="a-btn" {{ block.shopify_attributes }}>
+                            {% if block.settings.btn_icon != blank %}
+                                <img
+                                    src="{{ block.settings.btn_icon | image_url }}"
+                                    alt="{{ block.settings.btn_icon.alt }}"
+                                    width="{{ block.settings.btn_icon.width }}"
+                                    height="{{ block.settings.btn_icon.height }}"
+                                />
+                            {% endif %}
+                            {{ block.settings.btn_text }}
+                        </a>
+                    {% endcase %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</header>
+
+{% schema %}
+{
+  "name": "A Header",
+  "settings": [
+    {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+    },
+    {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#F5F5F5"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "description",
+      "name": "Description",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Your description here</p>"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Buttonn",
+      "settings": [
+        {
+          "type": "text",
+          "id": "btn_text",
+          "label": "Text",
+          "default": "CHOOSE GIFT"
+        },
+        {
+            "type": "url",
+            "id": "btn_url",
+            "label": "URL"
+        },
+        {
+          "type": "image_picker",
+          "id": "btn_icon",
+          "label": "Icon"
+        }
+
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "A Header",
+      "blocks": [
+        {
+          "type": "description"
+        },
+        {
+          "type": "button"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

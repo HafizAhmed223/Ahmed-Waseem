@@ -1,0 +1,172 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "custom_liquid_rPdkcy": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n<link href=\"https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Lustria&display=swap\" rel=\"stylesheet\">",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "a_header_GBfqfB": {
+      "type": "a-header",
+      "blocks": {
+        "description_8xXpnb": {
+          "type": "description",
+          "settings": {
+            "description": "<p>Find the ideal gift for your loved ones.</p>"
+          }
+        },
+        "button_hQ347D": {
+          "type": "button",
+          "settings": {
+            "btn_text": "CHOOSE GIFT",
+            "btn_url": "#",
+            "btn_icon": "shopify://shop_images/Line_15.png"
+          }
+        }
+      },
+      "block_order": [
+        "description_8xXpnb",
+        "button_hQ347D"
+      ],
+      "name": "A Header",
+      "settings": {
+        "logo": "shopify://shop_images/Group_1000007777.png",
+        "background_color": "#f5f5f5"
+      }
+    },
+    "a_hero_CMFrdA": {
+      "type": "a-hero",
+      "blocks": {
+        "heading_eEXxgG": {
+          "type": "heading",
+          "settings": {
+            "heading": "The Gift Guide"
+          }
+        },
+        "description_kFmHKD": {
+          "type": "description",
+          "settings": {
+            "description": "<p>Discover Joy: Your Ultimate Holiday Gift Destination.</p>"
+          }
+        },
+        "button_EhmXyp": {
+          "type": "button",
+          "settings": {
+            "btn_text": "SHOP NOW",
+            "btn_link": "/",
+            "btn_icon": "shopify://shop_images/Line_15_1.png"
+          }
+        }
+      },
+      "block_order": [
+        "heading_eEXxgG",
+        "description_kFmHKD",
+        "button_EhmXyp"
+      ],
+      "name": "A Hero Section",
+      "settings": {
+        "image_mobile": "shopify://shop_images/mobile-bg.jpg",
+        "image_desktop": "shopify://shop_images/Group_1000008197.jpg"
+      }
+    },
+    "a_banner_section_GWCdKq": {
+      "type": "a-banner-section",
+      "blocks": {
+        "banner_title_XkQaTk": {
+          "type": "banner_title",
+          "settings": {
+            "bannertitle": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+          }
+        }
+      },
+      "block_order": [
+        "banner_title_XkQaTk"
+      ],
+      "name": "AA Banner Section",
+      "settings": {}
+    },
+    "a_products_section_eXiNyi": {
+      "type": "a-products-section",
+      "blocks": {
+        "product_n7kaxQ": {
+          "type": "product",
+          "settings": {
+            "product": "black-leather-bag"
+          }
+        },
+        "product_9pjxcE": {
+          "type": "product",
+          "settings": {
+            "product": "blue-silk-tuxedo"
+          }
+        },
+        "product_3DBkgf": {
+          "type": "product",
+          "settings": {
+            "product": "chequered-red-shirt"
+          }
+        },
+        "product_6DMyzH": {
+          "type": "product",
+          "settings": {
+            "product": "classic-leather-jacket"
+          }
+        },
+        "product_Qi6mW7": {
+          "type": "product",
+          "settings": {
+            "product": "classic-varsity-top"
+          }
+        },
+        "product_Vfa8ab": {
+          "type": "product",
+          "settings": {
+            "product": "dark-denim-top"
+          }
+        }
+      },
+      "block_order": [
+        "product_n7kaxQ",
+        "product_9pjxcE",
+        "product_3DBkgf",
+        "product_6DMyzH",
+        "product_Qi6mW7",
+        "product_Vfa8ab"
+      ],
+      "name": "A Products Section",
+      "settings": {
+        "title": "Tisso vison in the wild",
+        "plus_icon": "shopify://shop_images/addIcon.svg"
+      }
+    }
+  },
+  "order": [
+    "custom_liquid_rPdkcy",
+    "main",
+    "a_header_GBfqfB",
+    "a_hero_CMFrdA",
+    "a_banner_section_GWCdKq",
+    "a_products_section_eXiNyi"
+  ]
+}
