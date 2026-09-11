@@ -1,0 +1,131 @@
+{{ "a-hero.css" | asset_url | stylesheet_tag }}
+
+<div class="hero-section-wrapper">
+  <div class="container-fluid">
+    <div class="hero-content-wrapper">
+      <div class="hero-content">
+        {% for block in section.blocks %}
+          {% case block.type %}
+          {% when "heading" %}
+            <h2 class="heading" {{ block.shopify_attributes }}>{{ block.settings.heading }}</h2>
+          {% when "description" %}
+            <div class="description" {{ block.shopify_attributes }}>{{ block.settings.description }}</div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when "button" %}
+            <a href="{{ block.settings.btn_link }}" class="a-btn">
+              {{ block.settings.btn_text }}
+              {% if block.settings.btn_icon %}
+                <img src="{{ block.settings.btn_icon | image_url }}" 
+                  alt="{{ block.settings.btn_text }} icon"
+                  width="{{ block.settings.btn_icon.width }}"
+                  height="{{ block.settings.btn_icon.height }}"
+                >
+              {% endif %}
+            </a>
+        {% endcase %}
+      {% endfor %}
+    </div>
+    <div class="hero-image">
+      <img src="{{ section.settings.image_mobile | image_url }}" 
+        alt="{{ section.settings.image_mobile.alt | escape }}"
+        width="{{ section.settings.image_mobile.width }}"
+        height="{{ section.settings.image_mobile.height }}"
+        class="mobile-img"
+      />
+      <img src="{{ section.settings.image_desktop | image_url }}" 
+        alt="{{ section.settings.image_desktop.alt | escape }}"
+        width="{{ section.settings.image_desktop.width }}"
+        height="{{ section.settings.image_desktop.height }}"
+        class="desktop-img"
+      />
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "A Hero Section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Image (Mobile)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Image (Desktop)"
+    }
+  ],
+  "blocks":
+  [
+   { 
+      "type" : "heading",
+      "name": "Heading",
+      "settings":[
+        {
+          "type":"text",
+          "id": "heading",
+          "label": "Heading",
+          "default":"The Gift Guide"
+        }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "settings":[
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Discover Joy: Your Ultimate Holiday Gift Destination.</p>"
+        }
+      ]
+    },
+    { 
+      "type" : "button",
+      "name": "Button",
+      "settings":[
+        {
+          "type":"text",
+          "id": "btn_text",
+          "label": "Text",
+          "default": "SHOP NOW"
+        },
+        {
+          "type":"url",
+          "id": "btn_link",
+          "label": "URL",
+          "default":"/"
+        },
+        {
+          "type": "image_picker",
+          "id": "btn_icon",
+          "label": "Icon"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "A Hero Section",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "description"
+        },
+        {
+          "type": "button"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

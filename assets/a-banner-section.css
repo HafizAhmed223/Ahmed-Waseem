@@ -1,0 +1,15 @@
+.main-container-banner {
+    background: #F5F5F5;
+    padding: 2px 0;
+  
+  .banner-title{
+    width: 100%;
+    text-align: center;
+    color: #000;
+    font-size: 14px;
+  }
+
+  * {
+    font-family: "Jost", sans-serif;
+  }
+}
